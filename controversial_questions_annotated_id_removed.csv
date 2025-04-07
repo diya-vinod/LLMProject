@@ -181,7 +181,6 @@ qid,r1,r2,Controversial question
 2420,2.8,4.4,False
 2437,2.4,3.6,False
 2443,3.8,4.3,False
-2446,4.0,4.4,True
 2457,3.8,4.4,False
 2470,2.8,4.2,False
 2494,1.4,2.4,False
@@ -399,7 +398,6 @@ qid,r1,r2,Controversial question
 5569,4.4,4.8,True
 5570,3.4,4.6,False
 5575,4.4,4.8,True
-5576,4.2,5.0,True
 5618,4.8,5.0,True
 5639,3.4,4.0,False
 5664,1.61538461538462,3.92307692307692,False
@@ -486,8 +484,6 @@ qid,r1,r2,Controversial question
 6672,4.6,4.8,True
 6691,1.6,2.6,False
 6712,3.5,3.5,False
-6740,4.0,4.8,True
-6741,4.4,5.0,True
 6746,1.0,1.8,False
 6753,3.5,4.4,False
 6781,1.0,2.6,False
@@ -520,7 +516,6 @@ qid,r1,r2,Controversial question
 7005,2.0,2.2,False
 7012,1.8,2.6,False
 7027,1.33333333333333,1.66666666666667,False
-7060,4.6,4.66666666666667,True
 7076,4.33333333333333,3.6666666666666705,False
 7085,4.4,4.4,True
 7086,3.8,4.8,False
@@ -556,7 +551,6 @@ qid,r1,r2,Controversial question
 7529,1.6,2.2,False
 7548,1.8,3.2,False
 7554,2.0,3.8,False
-7573,5.0,5.0,True
 7576,2.0,2.4,False
 7616,1.4,2.6,False
 7631,3.0,4.0,False
@@ -638,7 +632,6 @@ qid,r1,r2,Controversial question
 8578,2.6,4.4,False
 8580,1.0,1.4,False
 8599,4.2,4.4,True
-8624,4.0,4.8,True
 8631,3.6666666666666705,4.0,False
 8639,1.0,1.66666666666667,False
 8640,1.0,2.66666666666667,False
@@ -748,7 +741,6 @@ qid,r1,r2,Controversial question
 10017,1.0,1.6,False
 10019,1.0,2.0,False
 10038,1.8,3.4,False
-10041,4.2,5.0,True
 10042,4.8,4.8,True
 10053,4.6,4.6,True
 10063,1.2,2.0,False
@@ -1082,7 +1074,6 @@ qid,r1,r2,Controversial question
 15457,1.8,2.8,False
 15467,1.2,2.0,False
 15473,2.0,3.0,False
-15484,4.2,4.8,True
 15613,4.4,4.6,True
 15615,2.2,4.0,False
 15643,2.4,3.6,False
@@ -1285,7 +1276,6 @@ qid,r1,r2,Controversial question
 19530,1.0,2.33333333333333,False
 19534,1.4,2.6,False
 19546,1.4,2.6,False
-19572,4.7,5.0,True
 19580,2.8,3.0,False
 19586,1.8,2.8,False
 19592,2.0,3.0,False
@@ -1355,7 +1345,6 @@ qid,r1,r2,Controversial question
 20510,1.0,1.2,False
 20520,2.4,2.4,False
 20527,4.0,4.6,True
-20528,4.13333333333333,4.46666666666667,True
 20533,3.0,4.0,False
 20537,1.25,2.75,False
 20559,2.6,3.4,False
@@ -1507,7 +1496,6 @@ qid,r1,r2,Controversial question
 22866,4.0,4.8,True
 22887,2.75,3.25,False
 22890,1.2,1.7,False
-22902,4.8,4.8,True
 22903,4.2,5.0,True
 22928,1.6,1.8,False
 22944,2.25,2.25,False
@@ -2603,7 +2591,6 @@ qid,r1,r2,Controversial question
 42398,2.6,3.0,False
 42411,2.5,4.25,False
 42425,1.2,1.8,False
-42434,4.2,4.6,True
 42436,1.6,3.2,False
 42463,2.8,2.8,False
 42475,3.0,3.0,False
@@ -2950,13 +2937,11 @@ qid,r1,r2,Controversial question
 48448,4.2,4.6,True
 48519,1.6,1.6,False
 48560,1.4,3.4,False
-48564,4.4,4.4,True
 48570,1.4,1.6,False
 48572,1.2,3.8,False
 48576,2.2,4.2,False
 48597,1.2,2.2,False
 48646,1.2,2.6,False
-48664,4.4,5.0,True
 48688,3.0,4.0,False
 48735,2.6,3.2,False
 48745,2.2,2.8,False
@@ -5228,7 +5213,6 @@ qid,r1,r2,Controversial question
 91113,2.8,3.2,False
 91115,1.75,1.75,False
 91135,4.6,4.6,True
-91136,4.4,4.6,True
 91189,2.0,2.2,False
 91214,1.4,2.2,False
 91240,1.6,2.4,False
@@ -5678,7 +5662,6 @@ qid,r1,r2,Controversial question
 99679,2.0,4.2,False
 99694,1.25,3.25,False
 99741,1.8,3.0,False
-99755,4.2,4.6,True
 99758,1.25,1.75,False
 99801,1.4,1.8,False
 99802,1.0,2.2,False
@@ -6846,7 +6829,6 @@ qid,r1,r2,Controversial question
 123293,3.6,3.6,False
 123340,1.2,4.0,False
 123376,2.6,2.6,False
-123394,4.2,4.6,True
 123400,1.33333333333333,2.33333333333333,False
 123415,4.2,4.6,True
 123428,1.6,2.0,False
@@ -8970,7 +8952,6 @@ qid,r1,r2,Controversial question
 168051,2.6,3.2,False
 168072,1.6,1.8,False
 168093,1.0,2.8,False
-168104,4.6,4.8,True
 168112,1.6,3.8,False
 168125,1.6,1.6,False
 168127,3.0,4.4,False
@@ -10543,7 +10524,6 @@ qid,r1,r2,Controversial question
 199782,2.0,3.5,False
 199785,1.8,3.4,False
 199869,2.0,1.8,False
-199871,4.0,4.2,True
 199881,2.2,3.4,False
 199934,4.2,4.4,True
 199946,2.2,4.2,False
@@ -10662,7 +10642,6 @@ qid,r1,r2,Controversial question
 202344,1.0,2.8,False
 202348,1.25,2.75,False
 202367,1.8,1.4,False
-202429,4.2,4.8,True
 202440,3.2,4.6,False
 202453,1.2,2.0,False
 202470,2.6,3.2,False
@@ -11128,7 +11107,6 @@ qid,r1,r2,Controversial question
 211998,4.6,4.6,True
 212002,3.2,4.0,False
 212020,2.2,2.8,False
-212051,4.0,4.2,True
 212105,1.0,1.25,False
 212156,1.8,2.4,False
 212170,2.8,3.0,False
@@ -14237,7 +14215,6 @@ qid,r1,r2,Controversial question
 251066,1.2,3.4,False
 251071,1.2,1.4,False
 251073,2.8,4.0,False
-251074,4.0,4.6,True
 251087,1.4,2.4,False
 251092,1.0,1.2,False
 251103,1.2,2.2,False
@@ -14571,7 +14548,6 @@ qid,r1,r2,Controversial question
 255186,2.0,3.8,False
 255194,1.0,3.0,False
 255205,1.6,2.4,False
-255208,4.8,4.8,True
 255209,1.6,2.4,False
 255239,1.6,2.8,False
 255245,1.6,2.2,False
@@ -14651,7 +14627,6 @@ qid,r1,r2,Controversial question
 256177,2.4,3.6,False
 256191,1.0,1.6,False
 256192,1.4,1.2,False
-256193,4.8,4.8,True
 256221,1.4,2.4,False
 256231,3.4,4.6,False
 256232,2.0,3.0,False
@@ -16994,7 +16969,6 @@ qid,r1,r2,Controversial question
 286041,4.2,4.6,True
 286068,4.0,4.4,True
 286100,1.0,2.0,False
-286104,4.4,5.0,True
 286111,1.0,1.4,False
 286139,4.2,4.8,True
 286147,1.0,1.8,False
@@ -18236,7 +18210,6 @@ qid,r1,r2,Controversial question
 301529,2.0,2.6,False
 301573,2.4,3.6,False
 301577,1.4,2.8,False
-301590,4.2,4.6,True
 301592,1.4,2.6,False
 301610,2.0,3.6,False
 301632,2.4,3.4,False
@@ -18731,7 +18704,6 @@ qid,r1,r2,Controversial question
 308141,2.4,4.4,False
 308145,2.2,3.4,False
 308154,3.0,4.0,False
-308155,4.4,4.4,True
 308168,4.4,4.6,True
 308205,1.25,2.25,False
 308222,1.0,2.4,False
@@ -18769,7 +18741,6 @@ qid,r1,r2,Controversial question
 308863,1.4,3.0,False
 308866,2.8,3.4,False
 308874,1.6,1.4,False
-308877,4.2,4.8,True
 308887,1.6,2.8,False
 308933,1.2,2.4,False
 308951,3.2,3.8,False
@@ -20318,7 +20289,6 @@ qid,r1,r2,Controversial question
 328600,1.8,2.2,False
 328601,1.25,2.0,False
 328602,1.5,4.5,False
-328646,4.6,4.2,True
 328650,2.0,2.8,False
 328681,2.2,2.4,False
 328682,2.2,3.2,False
@@ -21476,7 +21446,6 @@ qid,r1,r2,Controversial question
 343829,1.75,3.25,False
 343842,1.6,2.6,False
 343851,1.0,1.8,False
-343858,4.0,4.6,True
 343890,1.0,2.0,False
 343900,3.25,4.0,False
 343922,1.8,3.2,False
@@ -22026,7 +21995,6 @@ qid,r1,r2,Controversial question
 352998,1.0,2.2,False
 353024,2.8,3.4,False
 353061,1.0,1.2,False
-353065,4.2,4.4,True
 353084,2.4,4.2,False
 353098,3.4,4.2,False
 353099,3.8,4.4,False
@@ -25457,7 +25425,6 @@ qid,r1,r2,Controversial question
 441322,2.5,4.0,False
 441329,4.8,5.0,True
 441420,2.0,3.4,False
-441429,4.0,4.2,True
 441472,2.8,4.2,False
 441526,3.4,4.4,False
 441538,1.25,1.25,False
@@ -27779,7 +27746,6 @@ qid,r1,r2,Controversial question
 487186,1.4,2.6,False
 487192,1.0,1.0,False
 487197,4.2,4.6,True
-487215,4.0,4.6,True
 487219,2.6,3.6,False
 487246,1.2,1.8,False
 487270,1.0,1.66666666666667,False
@@ -28633,7 +28599,6 @@ qid,r1,r2,Controversial question
 503836,2.2,2.4,False
 503848,3.0,4.0,False
 503854,1.0,1.25,False
-503863,4.4,4.6,True
 503957,3.6,4.4,False
 503971,1.33333333333333,2.33333333333333,False
 503978,1.4,2.4,False
