@@ -45,7 +45,6 @@ def get_multiple_answers(client_instance, question, num_answers=10):
                 {"role": "user", "content": f"Answer this question briefly: {question}"}
             ],
             temperature=1.0,  # Low temperature for confident answer
-            max_tokens=100,
             top_p=0.9
         )
         responses.append(response.choices[0].message.content.strip())
@@ -78,7 +77,7 @@ def calculate_entropy(probabilities):
     """
     Calculate entropy using the standard formula.
     """
-    entropy = -sum(p * np.log2(p) for p in probabilities.values() if p > 0)
+    entropy = -sum(p * np.log(p) for p in probabilities.values() if p > 0)
     return entropy
 
 def cluster_answers(client_instance, responses, question):
@@ -114,22 +113,34 @@ def cluster_answers(client_instance, responses, question):
 
 def check_entailment(client_instance, text1, text2, question):
     """
-    Use the LLM to check if text1 semantically entails text2 in the context of the question.
+    Check if two answers semantically entail each other (bidirectional).
+    Returns True if both directions of entailment return 'yes'.
     """
     try:
-        response = client_instance.client.chat.completions.create(
-            model="gpt-4o",
-            messages=[
-                {"role": "user", "content":
-                    f"In the context of this question: '{question}', does the following answer 1 semantically entail answer 2?\n\n"
-                    f"Answer 1: {text1}\n"
-                    f"Answer 2: {text2}\n\n"
-                    "Respond with only 'yes' or 'no'."}
-            ],
-            temperature=0.0
-        )
-        answer = response.choices[0].message.content.strip().lower()
-        return answer == "yes"
+        def ask_entailment(premise, hypothesis):
+            response = client_instance.client.chat.completions.create(
+                model="gpt-4o",
+                messages=[
+                    {
+                        "role": "user",
+                        "content": (
+                            f"In the context of this question: '{question}', does the following "
+                            f"Answer 1 semantically entail Answer 2?\n\n"
+                            f"Answer 1: {premise}\n"
+                            f"Answer 2: {hypothesis}\n\n"
+                            f"Respond with only 'yes' or 'no'."
+                        )
+                    }
+                ],
+                temperature=0.0
+            )
+            return response.choices[0].message.content.strip().lower() == "yes"
+
+        forward = ask_entailment(text1, text2)
+        backward = ask_entailment(text2, text1)
+
+        return forward and backward
+
     except Exception as e:
         print(f"Entailment check failed: {e}")
         return False
@@ -152,7 +163,7 @@ def calculate_semantic_entropy(clusters, probabilities):
         if cluster_prob > 0:
             cluster_probs.append(cluster_prob)
 
-    semantic_entropy = -sum(p * np.log2(p) for p in cluster_probs if p > 0)
+    semantic_entropy = -sum(p * np.log(p) for p in cluster_probs if p > 0)
     return semantic_entropy
 
 
@@ -164,7 +175,7 @@ answer_text = get_best_answer(client_instance, question)
 print(f"Best Answer: {answer_text}")
 
 # Get multiple answers
-mult_answer_text = get_multiple_answers(client_instance, question, num_answers=5)
+mult_answer_text = get_multiple_answers(client_instance, question, num_answers=10)
 print(f"Multiple Answers: {mult_answer_text}")
 
 # Count frequencies and convert to probabilities
@@ -176,7 +187,8 @@ print(f"Entropy: {entropy}")
 
 clusters = cluster_answers(client_instance, mult_answer_text, question)
 for idx, cluster in enumerate(clusters):
-    print(f"Cluster {idx + 1}:")
+    cluster_prob = sum(probabilities.get(answer, 0) for answer in cluster)  # Calculate cluster probability
+    print(f"Cluster {idx + 1} (Probability: {cluster_prob:.4f}):")
     for ans in cluster:
         print(f" - {ans}")
     print()
