@@ -1,17 +1,17 @@
-from openai import OpenAI
-from math import exp
+from typing import List
 import numpy as np
-#from IPython.display import display, HTML
+from openai import OpenAI
 import os
 import getpass
 
 # Prompt user to enter their API key
 api_key = input("Enter your OpenAI API key: ")
+
 class OpenAIClient:
-	def __init__(self, api_key):
-		self.client = OpenAI(api_key=api_key)
-		self.model = "gpt-4o"
-		self.temperature = 0.1
+    def __init__(self, api_key):
+        self.client = OpenAI(api_key=api_key)
+        self.model = "gpt-4o"
+        
 
 # Instantiate the class with the API key
 client_instance = OpenAIClient(api_key=api_key)
@@ -21,178 +21,165 @@ def get_best_answer(client_instance, question):
     Get the best answer from the LLM for a given question.
     """
     response = client_instance.client.chat.completions.create(
-        model="gpt-4o",  # Use the appropriate model
+        model=client_instance.model,
         messages=[
             {"role": "user", "content": f"Answer this question briefly: {question}"}
         ],
-        temperature=0.1,  # Low temperature for confident answer
+        temperature=0.1,
         max_tokens=100
     )
-
-    # Extract the actual text of the answer
     return response.choices[0].message.content.strip()
 
-# get multiple answers from the LLM
 def get_multiple_answers(client_instance, question, num_answers=10):
     """
-    Get multiple answers from the LLM for a given question.
+    Get multiple stochastic answers from the LLM for a given question.
     """
     responses = []
     for _ in range(num_answers):
         response = client_instance.client.chat.completions.create(
-            model="gpt-4o",  # Use the appropriate model
+            model=client_instance.model,
             messages=[
                 {"role": "user", "content": f"Answer this question briefly: {question}"}
             ],
-            temperature=1.0,  # Low temperature for confident answer
+            temperature=1.0,
             top_p=0.9
         )
         responses.append(response.choices[0].message.content.strip())
     return responses
 
-# Count frequency of each unique response
-def count_frequencies(responses):
-    """
-    Count the frequency of each unique response.
-    """
-    frequencies = {}
-    for response in responses:
-        if response in frequencies:
-            frequencies[response] += 1
-        else:
-            frequencies[response] = 1
-    return frequencies_to_probabilities(frequencies)  # Return probabilities
+def calculate_answer_frequencies(answers):
+    # count frequencies
+    counts = {}
+    for a in answers:
+        counts[a] = counts.get(a, 0) + 1
+    total = len(answers)
+    probs = [(a, cnt/total) for a, cnt in counts.items()]
+   
+    return probs
 
-# Convert frequencies to probabilities
-def frequencies_to_probabilities(frequencies):
+def calculate_naive_entropy(answer_freq_tuple):
     """
-    Convert frequencies to probabilities.
+    Calculate naive entropy based on answer frequencies.
     """
-    total = sum(frequencies.values())
-    probabilities = {k: v / total for k, v in frequencies.items()}
-    return probabilities
+    raw_probs = [p for _, p in answer_freq_tuple]
+    
+    # sum of probs should be 1.0
+    total = sum(raw_probs)
 
-# Calculate entropy using standard formula
-def calculate_entropy(probabilities):
-    """
-    Calculate entropy using the standard formula.
-    """
-    entropy = -sum(p * np.log(p) for p in probabilities.values() if p > 0)
-    return entropy
+    # normalize 
+    normalized_probs = [p / total for p in raw_probs]
 
-def cluster_answers(client_instance, responses, question):
+    # calculate individual entropies
+    entropy_contributions = []
+
+    for i, (answer_freq_tuple, _) in enumerate(answer_freq_tuple):
+        p = normalized_probs[i]
+        if p > 0:
+            entropy_contributions.append(p * np.log(p))
+        
+    # calculate total entropy
+    total_entropy = -sum(entropy_contributions)
+    return float(total_entropy)
+
+def _is_yes(response_text: str) -> bool:
+    return response_text.strip().lower().startswith("yes")
+
+def _check_semantic_equivalence(client_instance, a, b, question):
     """
-    Cluster semantically similar answers using bidirectional entailment.
-    Returns a list of clusters, where each cluster is a list of similar responses.
+    Check if two answers are semantically equivalent using the LLM.
     """
+    response = client_instance.client.chat.completions.create(
+        model=client_instance.model,
+        messages=[
+            {"role": "user", "content": f"In the context of this question: {question}. Does the following answer 1 semantically entail answer 2?\n\nAnswer 1: {a}\nAnswer 2: {b}\n\nRespond with only 'yes' or 'no'."}
+        ],
+        temperature=0.0,
+        
+    )
+    response2 = client_instance.client.chat.completions.create(
+        model=client_instance.model,
+        messages=[
+            {"role": "user", "content": f"In the context of this question: {question}. Does the following answer 2 semantically entail answer 1?\n\nAnswer 1: {b}\nAnswer 2: {a}\n\nRespond with only 'yes' or 'no'."}
+        ],
+        temperature=0.0,
+    )
+    r1 = response.choices[0].message.content
+    r2 = response2.choices[0].message.content
+
+    return _is_yes(r1) and _is_yes(r2)
+
+
+def calculate_semantic_entropy(client_instance, answers, question):
+    total_probability = sum(p for _, p in answers)
+    normalized_probs = [(_, p / total_probability) for _, p in answers]
+
+    clusters = {}
     used = set()
-    clusters = []
 
-    for i, ans1 in enumerate(responses):
+    for i, (a, p) in enumerate(normalized_probs):
         if i in used:
             continue
-        cluster = [ans1]
+        cluster = [a]
+        cluster_prob = p
         used.add(i)
-
-        for j in range(i + 1, len(responses)):
+        for j, (b, p2) in enumerate(normalized_probs[i+1:], start=i+1):
             if j in used:
                 continue
-            ans2 = responses[j]
-
-            # Check if ans1 semantically entails ans2 and vice versa
-            entail1 = check_entailment(client_instance, ans1, ans2, question)
-            entail2 = check_entailment(client_instance, ans2, ans1, question)
-
-            if entail1 and entail2:
-                cluster.append(ans2)
+            if _check_semantic_equivalence(client_instance, a, b, question):
+                cluster.append(b)
+                cluster_prob += p2
                 used.add(j)
-
-        clusters.append(cluster)
-
-    return clusters
-
-def check_entailment(client_instance, text1, text2, question):
-    """
-    Check if two answers semantically entail each other (bidirectional).
-    Returns True if both directions of entailment return 'yes'.
-    """
-    try:
-        def ask_entailment(premise, hypothesis):
-            response = client_instance.client.chat.completions.create(
-                model="gpt-4o",
-                messages=[
-                    {
-                        "role": "user",
-                        "content": (
-                            f"In the context of this question: '{question}', does the following "
-                            f"Answer 1 semantically entail Answer 2?\n\n"
-                            f"Answer 1: {premise}\n"
-                            f"Answer 2: {hypothesis}\n\n"
-                            f"Respond with only 'yes' or 'no'."
-                        )
-                    }
-                ],
-                temperature=0.0
-            )
-            return response.choices[0].message.content.strip().lower() == "yes"
-
-        forward = ask_entailment(text1, text2)
-        backward = ask_entailment(text2, text1)
-
-        return forward and backward
-
-    except Exception as e:
-        print(f"Entailment check failed: {e}")
-        return False
-
-def calculate_semantic_entropy(clusters, probabilities):
-    """
-    Calculate semantic entropy based on clusters and their summed probabilities.
+        
+        length = len(cluster)
+        clusters[length] = (cluster, cluster_prob)
     
-    Args:
-        clusters: List of lists (each inner list is a cluster of equivalent answers)
-        probabilities: Dictionary mapping answer text to its probability
-
-    Returns:
-        semantic_entropy: A float representing the semantic entropy
-    """
-    cluster_probs = []
-
-    for cluster in clusters:
-        cluster_prob = sum(probabilities.get(answer, 0) for answer in cluster)
-        if cluster_prob > 0:
-            cluster_probs.append(cluster_prob)
-
-    semantic_entropy = -sum(p * np.log(p) for p in cluster_probs if p > 0)
-    return semantic_entropy
+    print(f"\nCluster {length + 1}:")
+    for text in cluster:
+        print(f"   - {text}")
+    print(f"   Total probability: {cluster_prob:.3f}")
 
 
-question = input("Enter a question to ask the LLM: ")
-print(f"You entered: {question}")
+    cluster_probs = [prob for _, (_, prob) in clusters.items()]
+    semantic_contributions = [-p * np.log(p) for p in cluster_probs]
+    semantic_entropy = sum(semantic_contributions)
 
-# Call the function and print the result
-answer_text = get_best_answer(client_instance, question)
-print(f"Best Answer: {answer_text}")
+    print("\n3. Final semantic entropy calculation:")
+    for i, (prob, contribution) in enumerate(zip(cluster_probs, semantic_contributions)):
+        print(
+            f"   Cluster {i + 1}: {prob:.3f} * log({prob:.3f}) = {contribution:.3f}"
+        )
+    print(f"\nTotal semantic entropy: {semantic_entropy:.3f}")
+    return float(semantic_entropy)
 
-# Get multiple answers
-mult_answer_text = get_multiple_answers(client_instance, question, num_answers=10)
-print(f"Multiple Answers: {mult_answer_text}")
+def main():
+    question = input("Enter a question to ask the LLM: ")
+    print(f"You entered: {question}\n")
 
-# Count frequencies and convert to probabilities
-probabilities = count_frequencies(mult_answer_text)
+    # Best single answer
+    best = get_best_answer(client_instance, question)
+    print(f"Best Answer: {best}\n")
 
-# calculate entropy
-entropy = calculate_entropy(probabilities)
-print(f"Entropy: {entropy}")
-
-clusters = cluster_answers(client_instance, mult_answer_text, question)
-for idx, cluster in enumerate(clusters):
-    cluster_prob = sum(probabilities.get(answer, 0) for answer in cluster)  # Calculate cluster probability
-    print(f"Cluster {idx + 1} (Probability: {cluster_prob:.4f}):")
-    for ans in cluster:
-        print(f" - {ans}")
+    # Multiple sampled answers
+    samples = get_multiple_answers(client_instance, question, num_answers=10)
+    
+    print("Multiple Answers:")
+    for idx, ans in enumerate(samples, 1):
+        print(f"{idx}. {ans}")
     print()
 
-# Calculate semantic entropy
-semantic_entropy = calculate_semantic_entropy(clusters, probabilities)
-print(f"\nSemantic Entropy: {semantic_entropy:.4f}")
+    # compute frequencies
+    answer_freq_tuple = calculate_answer_frequencies(samples)
+    print("Answer Frequencies:")
+    for ans, freq in answer_freq_tuple:
+        print(f"{ans}: {freq:.4f}")
+    naive_H = calculate_naive_entropy(answer_freq_tuple)
+    semantic_H = calculate_semantic_entropy(client_instance, answer_freq_tuple, question)
+
+    print(f"Naive Entropy: {naive_H:.4f}")
+    print(f"Semantic Entropy: {semantic_H:.4f}")
+
+
+
+if __name__ == "__main__":
+    main()
+
