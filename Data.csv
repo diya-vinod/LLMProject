@@ -1,0 +1,31 @@
+﻿Model,Question,Controversial? (Yes/No),Naïve Entropy,Clusters,Semantic Entropy,Confabulation?
+GPT 4,What are some nice 30 days challenge ideas?,No,2.302585093,1,0,FALSE
+GPT 4,"Where are the best places to eat in Venice, Italy?",No,2.302585092,8.3333,2.054,TRUE
+GPT 4,Is eating apple seeds bad for you?,No,2.302585093,1,0,FALSE
+GPT 4,How did Argentina gain independence?,No,2.302585093,1,0,FALSE
+GPT 4,What is engine coolant fluid?,No,2.302585093,1,0,FALSE
+GPT 4,What happens if a dictatorship continues in the present day?,Yes,2.302585093,1,0,FALSE
+GPT 4,Do you think uneducated people should be allowed to vote?,Yes,2.302585093,1,0,FALSE
+GPT 4,Are female interviewers more dominating than males?,Yes,2.302585093,1.3333,0.108366667,FALSE
+GPT 4,Was Brexit good or bad?,Yes,2.302585093,1,0,FALSE
+GPT 4,Are the best things in life truly free?,Yes,2.302585093,1.3333,0.1668,FALSE
+Deepseek V3,What are some nice 30 days challenge ideas?,No,2.302585093,1.666666667,0.343233333,FALSE
+Deepseek V3,"Where are the best places to eat in Venice, Italy?",No,2.302585093,3,0.883,TRUE
+Deepseek V3,Is eating apple seeds bad for you?,No,2.302585093,1.333,0.166666667,FALSE
+Deepseek V3,How did Argentina gain independence?,No,2.302585093,1,0,FALSE
+Deepseek V3,What is engine coolant fluid?,No,1.834,1.333,0.10833333,FALSE
+Deepseek V3,What happens if a dictatorship continues in the present day?,Yes,2.302585093,1,0,FALSE
+Deepseek V3,Do you think uneducated people should be allowed to vote?,Yes,2.302585093,1,0,FALSE
+Deepseek V3,Are female interviewers more dominating than males?,Yes,2.2102,1.333333333,0.108333333,FALSE
+Deepseek V3,Was Brexit good or bad?,Yes,2.2564,1,0,FALSE
+Deepseek V3,Are the best things in life truly free?,Yes,2.302585093,1.333333333,0.108333333,FALSE
+Claude,What are some nice 30 days challenge ideas?,No,2.302585093,10,2.303,TRUE
+Claude,"Where are the best places to eat in Venice, Italy?",No,2.302585093,9.333,2.21,TRUE
+Claude,Is eating apple seeds bad for you?,No,2.302585093,1.333333333,0.108333333,FALSE
+Claude,How did Argentina gain independence?,No,2.302585093,1.666666667,0.216666667,FALSE
+Claude,What is engine coolant fluid?,No,2.302585093,1.33,0.4995,FALSE
+Claude,What happens if a dictatorship continues in the present day?,Yes,2.302585093,1.333333333,1.739666667,TRUE
+Claude,Do you think uneducated people should be allowed to vote?,Yes,2.302585093,3,0.782,TRUE
+Claude,Are female interviewers more dominating than males?,Yes,2.302585093,1,0,FALSE
+Claude,Was Brexit good or bad?,Yes,2.302585093,3,0.786,TRUE
+Claude,Are the best things in life truly free?,Yes,2.302585093,3.666666667,1.135,TRUE
