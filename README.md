@@ -1,5 +1,7 @@
 # Semantic Entropy for Detecting Bias in LLM Responses
 
+View the [final paper](https://github.com/diya-vinod/LLMProject/blob/main/LLMProjectFinalPaper.pdf).
+
 ## Abstract
 
 This study investigates whether semantic entropy can serve as an effective metric
